@@ -24,20 +24,10 @@ class _Mongo():
             raise KeyError(f"Config section '{prefix_conf}' not found in config.ini")
         section = config[prefix_conf]
 
-        # Always force localhost for tunnel if DIRECT_CONNECTION is true
         host1 = section.get('HOST', '127.0.0.1')
         port1 = section.get('PORT', '27017')
         host2 = section.get('HOST_SECONDARY', '')
         port2 = section.get('PORT_SECONDARY', '')
-
-        # Tambahkan validasi agar tidak connect ke IP private jika direct_connection true
-        if section.get('DIRECT_CONNECTION', 'false').lower() == 'true':
-            if host1 != 'localhost' and host1 != '127.0.0.1':
-                debug('mongo', f"Overriding HOST to localhost for SSH tunnel (was {host1})")
-                host1 = 'localhost'
-            if host2 and host2 != 'localhost' and host2 != '127.0.0.1':
-                debug('mongo', f"Overriding HOST_SECONDARY to localhost for SSH tunnel (was {host2})")
-                host2 = 'localhost'
 
         if host2 and port2:
             hosts = f"{host1}:{port1},{host2}:{port2}"
