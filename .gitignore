@@ -5,3 +5,4 @@ service_account.json
 config.iniservice_account.json
 credentials.json
 .env
+__pycache__
